@@ -1,12 +1,23 @@
 
-var fsm = StateMachine.create({
-    initial: 'pretrial',
-    events: [
-        {name: 'try_next', from: 'pretrial', to: 'intrial'},
-        {name: 'try_next', from: 'intrial', to: 'posttrial'},
-        {name: 'try_next', from: 'posttrial', to: 'feedback'}
+var fsm = new StateMachine({
+    init: 'start',
+    transitions: [
+        {name: 'try', from: 'start', to: 'middle'},
+        {name: 'try', from: 'middle', to: 'end'},
+        {name: 'try', from: 'end', to: 'start'}
     ],
-    callbacks: {
-        onbeforetry_next: function(event, from, to, flags) { }
+    methods: {
+        onLeaveMiddle: function() {
+            console.log('Try transition');
+            return(this.flag1);
+        },
+        onLeaveEnd: function() {
+            console.log('Will we reach the end?');
+            return(this.flag2);
+        }
+    },
+    data: {
+        flag1: true,
+        flag2: false
     }
-})
+});
