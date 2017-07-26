@@ -2,6 +2,7 @@ function createStimulus(window_dims, inner_on_inds = [], outer_on_inds = [],
                         line_width = 20, circle_width = 40) {
 // window_dims = [window.innerWidth, window.innerHeight]
 //
+  console.log(window_dims);
   var scaling_factor = window_dims.min();
   var graphics = game.add.graphics(0, 0);
   var indices = [
