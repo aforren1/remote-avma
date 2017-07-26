@@ -1,5 +1,5 @@
 function createStimulus(window_dims, inner_on_inds = [], outer_on_inds = [],
-                        line_width = 20, circle_width = 40) {
+                        line_width = 20, circle_width = 40, game) {
 // window_dims = [window.innerWidth, window.innerHeight]
 //
   var scaling_factor = window_dims[1];
