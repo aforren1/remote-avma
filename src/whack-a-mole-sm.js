@@ -23,6 +23,9 @@ var fsm = new StateMachine({
       game.stage.backgroundColor = '0x000000';
       sprite_stimulus.tint = '0xffffff';
       sprite_default.visible = true;
+      this.key_array.length = 0; // clear prev keys
+      this.key_array = [0, 0];
+      this.trial_start = game.time.now;
     },
     onLeaveNeutral: function() {
       return (this.perf.now()) >= this.t_wait;
@@ -30,10 +33,7 @@ var fsm = new StateMachine({
     onEnterIntrial: function() {
       console.log('Entering intrial');
       // draw image now, beep now
-      this.trial_start = game.time.now;
-      this.t_wait = this.trial_start + randInt(200, 500);
-      this.key_array.length = 0; // clear prev keys
-      this.key_array = [0, 0];
+      this.t_wait = this.trial_start + 500 + randInt(200, 500);
       sprite_default.visible = false;
       sprite_stimulus.visible = true;
     },
