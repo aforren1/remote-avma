@@ -20,7 +20,7 @@ var fsm = new StateMachine({
     onEnterNeutral: function() {
       console.log('Entering neutral');
       this.t_wait = this.perf.now() + 500;
-      game.stage.backgroundColor = '0x000000';
+      sprite_default.tint = '0xffffff';
       sprite_stimulus.tint = '0xffffff';
       sprite_default.visible = true;
       this.key_array.length = 0; // clear prev keys
@@ -41,13 +41,14 @@ var fsm = new StateMachine({
       var res = game.time.now >= this.t_wait || this.key_array[0] !== 0;
       if (res) {
         console.log('Pressed ' + this.key_array[0][1]);
-        console.log(this.key_array[0][0] - this.perf.timing.navigationStart - this.trial_start);
+        console.log(this.key_array[0][0] - this.perf.timing.navigationStart - this.trial_start - 500);
       }
       return res;
     },
     onEnterNo: function() {
       console.log('Entering none');
-      game.stage.backgroundColor = '0xff0000';
+      sprite_default.tint = '0xff0000';
+      sprite_default.visible = true;
       sprite_stimulus.visible = false;
       this.t_wait = this.perf.now() + 500;
     },
