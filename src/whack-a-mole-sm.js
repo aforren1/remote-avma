@@ -1,6 +1,7 @@
 var fsm = new StateMachine({
-  init: 'neutral',
-  transitions: [{name: 'try', from: 'neutral', to: 'intrial'},
+  init: 'begin',
+  transitions: [{name: 'try', from: 'begin', to: 'neutral'},
+                {name: 'try', from: 'neutral', to: 'intrial'},
                 {name: 'try', from: 'intrial', to: function() {
                                                      if (this.key_array[0] === 0) {
                                                        return 'no';
@@ -13,10 +14,16 @@ var fsm = new StateMachine({
                 {name: 'try', from: 'correct', to: 'neutral'},
                 {name: 'try', from: 'incorrect', to: 'neutral'}],
   methods: {
+    onLeaveBegin: function() {
+      return game.scale.isFullScreen;
+    },
     onEnterNeutral: function() {
     // doesn't execute the very first time
       console.log('Entering neutral');
       this.t_wait = this.perf.now() + 500;
+      game.stage.backgroundColor = '0x000000';
+      sprite2.tint = '0xffffff';
+      sprite3.visible = true;
     },
     onLeaveNeutral: function() {
       return (this.perf.now()) >= this.t_wait;
@@ -28,7 +35,8 @@ var fsm = new StateMachine({
       this.t_wait = this.trial_start + randInt(200, 500);
       this.key_array.length = 0; // clear prev keys
       this.key_array = [0, 0];
-      game.stage.backgroundColor = '0xaaaaaa';
+      sprite3.visible = false;
+      sprite2.visible = true;
     },
     onLeaveIntrial: function() {
       var res = game.time.now >= this.t_wait || this.key_array[0] !== 0;
@@ -41,44 +49,32 @@ var fsm = new StateMachine({
     onEnterNo: function() {
       console.log('Entering none');
       game.stage.backgroundColor = '0xff0000';
+      sprite2.visible = false;
       this.t_wait = this.perf.now() + 500;
     },
     onLeaveNo: function() {
       // wait for time elapsed AND keypress
-      var res = this.perf.now() >= this.t_wait && this.key_array[0] !== 0;
-      if (res) {
-        game.stage.backgroundColor = '0x000000';
-      }
-      return res;
+      return this.perf.now() >= this.t_wait && game.scale.isFullScreen && this.key_array[0] !== 0;
     },
     onEnterCorrect: function() {
       console.log('Entering correct');
-      game.stage.backgroundColor = '0x00ff00';
+      sprite2.tint = '0x00ff00';
       this.t_wait = this.perf.now() + 500;
     },
     onLeaveCorrect: function() {
-      var res = this.perf.now() >= this.t_wait;
-      if (res) {
-        game.stage.backgroundColor = '0x000000';
-      }
-      return res;
+      return this.perf.now() >= this.t_wait && game.scale.isFullScreen;
     },
     onEnterIncorrect: function() {
       console.log('Entering incorrect');
-      game.stage.backgroundColor = '0x0000ff';
+      sprite2.tint = '0x0000ff';
       this.t_wait = this.perf.now() + 500;
     },
     onLeaveIncorrect: function() {
-      var res = this.perf.now() >= this.t_wait;
-      if (res) {
-        game.stage.backgroundColor = '0x000000';
-      }
-      return res;
+      return this.perf.now() >= this.t_wait && game.scale.isFullScreen;
     }
   },
   data: {
     perf: performance,
-    fps: (1 / 60) * 1000,
     t_wait: 0,
     key_array: Array([0]),
     trial_start: 0

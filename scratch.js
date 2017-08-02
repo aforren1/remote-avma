@@ -1,38 +1,51 @@
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-ex',
-                           {create: create, update: update, render: render});
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', {
+    create: create,
+    update: update
+},
+ false,
+ false);
 
-var rectangle;
-var keys;
+function gofull() {
+    game.scale.startFullScreen();
+}
+
+var sprite;
+var sprite2;
+var sprite3;
 
 function create() {
-    rectangle = game.add.graphics(game.world.centerX, game.world.centerY);
-    rectangle.lineStyle(8, 0xff700B, 1);
-    rectangle.beginFill(0xff0000);
-    rectangle.drawRoundedRect(0, 0, 100, 100, 8);
-    rectangle.endFill();
-    keys = game.input.keyboard.addKeys({'h': Phaser.KeyCode.H, 'u': Phaser.KeyCode.U,
-        'i': Phaser.KeyCode.I, 'l': Phaser.KeyCode.L});
-}
+    sprite = createStimulus([game.width, game.height], [0, 1, 2], [0, 1, 2]);
+    sprite.scale.setTo(0.3, 0.3);
+    sprite2 = createStimulus([game.width, game.height], [0, 2, 4], [0, 1, 2]);
+    sprite2.scale.setTo(0.3, 0.3);
+    sprite3 = createStimulus([game.width, game.height], [], []);
+    sprite3.scale.setTo(0.3, 0.3);
+    sprite.visible = false;
+    sprite2.visible = false;
 
-
-GameState = {};
-GameState.init = function() {
-    this.keys = this.game.input.keyboard.addKeys({
-        h: Phaser.KeyCode.H,
-        u: Phaser.KeyCode.U,
-        I: Phaser.KeyCode.I,
-        L: Phaser.KeyCode.L
+    //game.input.onDown.add(changeTint, this);
+    game.time.advancedTiming = true;
+    game.time.desiredFps = (1 / game.time.suggestedFps) * 1000;
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.input.onDown.add(gofull, this);
+    keys = game.input.keyboard.addKeys({
+        'h': Phaser.Keyboard.H,
+        'u': Phaser.Keyboard.U
     });
-    this.keys
-};
-
-GameState.update = function() {
-    this._handleInput();
+    keys.h.onDown.add(onDownFn, this);
+    keys.u.onDown.add(onDownFn, this);
 }
 
-GameState._handleInput = function() {
-    if (this.keys.h.isDown) {
-        // color in
-    } else if (this.keys.h.)
+function onDownFn(key) {
+  if (fsm.key_array[0] === 0) {
+    fsm.key_array[0] = [key.timeDown, key.event.key];
+  } else {
+    fsm.key_array.push([key.timeDown, key.event.key]);
+  }
+}
+
+function update() {
+    //sprite.rotation += 0.02;
+    fsm.try();
 }
