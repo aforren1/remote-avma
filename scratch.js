@@ -11,18 +11,18 @@ function gofull() {
 }
 
 var sprite;
-var sprite2;
-var sprite3;
+var sprite_stimulus;
+var sprite_default;
 
 function create() {
     sprite = createStimulus([game.width, game.height], [0, 1, 2], [0, 1, 2]);
     sprite.scale.setTo(0.3, 0.3);
-    sprite2 = createStimulus([game.width, game.height], [0, 2, 4], [0, 1, 2]);
-    sprite2.scale.setTo(0.3, 0.3);
-    sprite3 = createStimulus([game.width, game.height], [], []);
-    sprite3.scale.setTo(0.3, 0.3);
+    sprite_stimulus = createStimulus([game.width, game.height], [0, 2, 4], [0, 1, 2]);
+    sprite_stimulus.scale.setTo(0.3, 0.3);
+    sprite_default = createStimulus([game.width, game.height], [], []);
+    sprite_default.scale.setTo(0.3, 0.3);
     sprite.visible = false;
-    sprite2.visible = false;
+    sprite_stimulus.visible = false;
 
     //game.input.onDown.add(changeTint, this);
     game.time.advancedTiming = true;

@@ -18,12 +18,11 @@ var fsm = new StateMachine({
       return game.scale.isFullScreen;
     },
     onEnterNeutral: function() {
-    // doesn't execute the very first time
       console.log('Entering neutral');
       this.t_wait = this.perf.now() + 500;
       game.stage.backgroundColor = '0x000000';
-      sprite2.tint = '0xffffff';
-      sprite3.visible = true;
+      sprite_stimulus.tint = '0xffffff';
+      sprite_default.visible = true;
     },
     onLeaveNeutral: function() {
       return (this.perf.now()) >= this.t_wait;
@@ -35,8 +34,8 @@ var fsm = new StateMachine({
       this.t_wait = this.trial_start + randInt(200, 500);
       this.key_array.length = 0; // clear prev keys
       this.key_array = [0, 0];
-      sprite3.visible = false;
-      sprite2.visible = true;
+      sprite_default.visible = false;
+      sprite_stimulus.visible = true;
     },
     onLeaveIntrial: function() {
       var res = game.time.now >= this.t_wait || this.key_array[0] !== 0;
@@ -49,7 +48,7 @@ var fsm = new StateMachine({
     onEnterNo: function() {
       console.log('Entering none');
       game.stage.backgroundColor = '0xff0000';
-      sprite2.visible = false;
+      sprite_stimulus.visible = false;
       this.t_wait = this.perf.now() + 500;
     },
     onLeaveNo: function() {
@@ -58,7 +57,7 @@ var fsm = new StateMachine({
     },
     onEnterCorrect: function() {
       console.log('Entering correct');
-      sprite2.tint = '0x00ff00';
+      sprite_stimulus.tint = '0x00ff00';
       this.t_wait = this.perf.now() + 500;
     },
     onLeaveCorrect: function() {
@@ -66,7 +65,7 @@ var fsm = new StateMachine({
     },
     onEnterIncorrect: function() {
       console.log('Entering incorrect');
-      sprite2.tint = '0x0000ff';
+      sprite_stimulus.tint = '0x0000ff';
       this.t_wait = this.perf.now() + 500;
     },
     onLeaveIncorrect: function() {
